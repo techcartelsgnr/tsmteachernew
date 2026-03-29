@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "570604166932",
+    "project_id": "theschoolmate-b01c0",
+    "storage_bucket": "theschoolmate-b01c0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570604166932:android:5cd8d5b6e2aa867be22c01",
+        "android_client_info": {
+          "package_name": "com.theschoolmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeQorwy-ozyW9fE_P_ZARLBLAymjbNDjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570604166932:android:aab8b3a5596d9b01e22c01",
+        "android_client_info": {
+          "package_name": "com.tsm.teacher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeQorwy-ozyW9fE_P_ZARLBLAymjbNDjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
