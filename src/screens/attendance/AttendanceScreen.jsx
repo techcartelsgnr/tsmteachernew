@@ -462,7 +462,7 @@ import {
     Alert,
 } from 'react-native';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronLeft } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -477,10 +477,13 @@ import {
     Fonts,
 } from '../../theme/theme';
 
+
 const AttendanceScreen = ({ route }) => {
 
     const { attendanceId, class_mapping_id } = route.params || {};
     const isEditMode = !!attendanceId;
+
+    const insets = useSafeAreaInsets();
 
     const { colors, isDarkMode } = useTheme();
     const navigation = useNavigation();
@@ -659,139 +662,127 @@ const AttendanceScreen = ({ route }) => {
     };
 
     return (
-
-        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={colors.primary}
-            />
-
-            {/* HEADER */}
-
-            <View style={[styles.header, { backgroundColor: colors.primary }]}>
-
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <ChevronLeft size={22} color="#fff" />
-                </TouchableOpacity>
-
-                <View>
-                    <Text style={styles.headerDate}>{todayDate}</Text>
-                    <Text style={styles.headerTitle}>
-                        {isEditMode ? "Edit Attendance" : "Take Attendance"}
+        <View style={[styles.container]}>
+            {/* TOP SAFE AREA (STATUS BAR COLOR) */}
+            <SafeAreaView edges={['top']} style={{ backgroundColor: colors.primary }} />
+            <SafeAreaView edges={['bottom', 'left', 'right']} style={{ flex: 1, }}>
+                <StatusBar
+                    barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                    backgroundColor={colors.primary}
+                />
+                {/* HEADER */}
+                <View style={[styles.header, { backgroundColor: colors.primary }]}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <ChevronLeft size={22} color="#fff" />
+                    </TouchableOpacity>
+                    <View>
+                        <Text style={styles.headerDate}>{todayDate}</Text>
+                        <Text style={styles.headerTitle}>
+                            {isEditMode ? "Edit Attendance" : "Take Attendance"}
+                        </Text>
+                    </View>
+                    <View style={styles.headerCircle} />
+                </View>
+                {/* SUMMARY */}
+                <View style={styles.summaryRow}>
+                    <View style={[styles.summaryCard, { backgroundColor: colors.cardBackground }]}>
+                        <Text style={[styles.summaryNumber, { color: colors.success }]}>
+                            {presentCount}
+                        </Text>
+                        <Text style={[styles.pCountText, { color: colors.textSecondary }]}>
+                            Present
+                        </Text>
+                    </View>
+                    <View style={[styles.summaryCard, { backgroundColor: colors.cardBackground }]}>
+                        <Text style={[styles.summaryNumber, { color: colors.error }]}>
+                            {absentCount}
+                        </Text>
+                        <Text style={[styles.pCountText, { color: colors.textSecondary }]}>
+                            Absent
+                        </Text>
+                    </View>
+                </View>
+                {/* LIST */}
+                <View style={[styles.tableHeader, { borderBottomColor: colors.divider }]}>
+                    <Text style={[styles.th, { color: colors.textSecondary, flex: 0.6 }]}>
+                        S.No
+                    </Text>
+                    <Text style={[styles.th, { color: colors.textSecondary, flex: 1.8 }]}>
+                        Name
+                    </Text>
+                    <Text style={[styles.th, { color: colors.textSecondary, flex: 0.8 }]}>
+                        Roll
+                    </Text>
+                    <Text style={[styles.th, { color: colors.textSecondary, flex: 1.2, textAlign: 'left' }]}>
+                        Status
                     </Text>
                 </View>
 
-                <View style={styles.headerCircle} />
+                <FlatList
+                    data={students}
+                    keyExtractor={(item) => item.id.toString()}
 
-            </View>
+                    renderItem={({ item, index }) => (
 
-            {/* SUMMARY */}
+                        <View style={[styles.row, { borderBottomColor: colors.divider }]}>
 
-            <View style={styles.summaryRow}>
-
-                <View style={[styles.summaryCard, { backgroundColor: colors.cardBackground }]}>
-                    <Text style={[styles.summaryNumber, { color: colors.success }]}>
-                        {presentCount}
-                    </Text>
-                    <Text style={[styles.pCountText, { color: colors.textSecondary }]}>
-                        Present
-                    </Text>
-                </View>
-
-                <View style={[styles.summaryCard, { backgroundColor: colors.cardBackground }]}>
-                    <Text style={[styles.summaryNumber, { color: colors.error }]}>
-                        {absentCount}
-                    </Text>
-                    <Text style={[styles.pCountText, { color: colors.textSecondary }]}>
-                        Absent
-                    </Text>
-                </View>
-
-            </View>
-
-            {/* LIST */}
-
-            <View style={[styles.tableHeader, { borderBottomColor: colors.divider }]}>
-
-                <Text style={[styles.th, { color: colors.textSecondary, flex: 0.6 }]}>
-                    S.No
-                </Text>
-
-                <Text style={[styles.th, { color: colors.textSecondary, flex: 1.8 }]}>
-                    Name
-                </Text>
-
-                <Text style={[styles.th, { color: colors.textSecondary, flex: 0.8 }]}>
-                    Roll
-                </Text>
-
-                <Text style={[styles.th, { color: colors.textSecondary, flex: 1, textAlign: 'left' }]}>
-                    Status
-                </Text>
-
-            </View>
-
-            <FlatList
-                data={students}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={{ paddingBottom: 120 }}
-                renderItem={({ item, index }) => (
-
-                    <View style={[styles.row, { borderBottomColor: colors.divider }]}>
-
-                        <Text style={[styles.cell, { flex: 0.6 }]}>
-                            {index + 1}
-                        </Text>
-
-                        <Text style={[styles.cell, { flex: 1.8 }]}>
-                            {item.name}
-                        </Text>
-
-                        <Text style={[styles.cell, { flex: 0.8 }]}>
-                            {item.roll}
-                        </Text>
-
-                        <View style={styles.statusWrap}>
-
-                            <Switch
-                                value={item.status === "Present"}
-                                onValueChange={() => toggleAttendance(item.id)}
-                            />
-
-                            <Text
-                                style={[styles.cell, {
-                                    marginHorizontal: 0,
-                                    color: item.status === "Present" ? colors.success : colors.error,
-                                }]}
-                            >
-                                {item.status}
+                            <Text style={[styles.cell, { flex: 0.6 }]}>
+                                {index + 1}
                             </Text>
+
+                            <Text style={[styles.cell, { flex: 1.8 }]}>
+                                {item.name}
+                            </Text>
+
+                            <Text style={[styles.cell, { flex: 0.8 }]}>
+                                {item.roll}
+                            </Text>
+
+                            <View style={styles.statusWrap}>
+                                <Switch
+                                    value={item.status === "Present"}
+                                    onValueChange={() => toggleAttendance(item.id)}
+                                    trackColor={{ false: '#d1d5db', true: '#22c55e' }} // FIXED
+                                    thumbColor="#fff"
+                                    ios_backgroundColor="#d1d5db" // 🔥 IMPORTANT for iOS
+                                    style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.8 }] }} // resize for iOS
+                                />
+
+                                <Text
+                                    style={[styles.cell, {
+                                        marginHorizontal: 0,
+
+                                        color: item.status === "Present" ? colors.success : colors.error,
+                                    }]}
+                                >
+                                    {item.status}
+                                </Text>
+
+                            </View>
 
                         </View>
 
-                    </View>
+                    )}
+                />
 
-                )}
-            />
+                {/* SUBMIT BUTTON */}
 
-            {/* SUBMIT BUTTON */}
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        style={[styles.submitBtn, { backgroundColor: colors.primary, opacity: loading ? 0.6 : 1 }]}
+                        onPress={submitAttendance}
+                        disabled={loading}
+                    >
+                        <Text style={styles.submitText}>
+                            {isEditMode ? "Update Attendance" : "Submit Attendance"}
+                        </Text>
+                    </TouchableOpacity>
 
-            <View style={styles.footer}>
+                </View>
 
-                <TouchableOpacity
-                    style={[styles.submitBtn, { backgroundColor: colors.primary, opacity: loading ? 0.6 : 1 }]}
-                    onPress={submitAttendance}
-                    disabled={loading}
-                >
-                    <Text style={styles.submitText}>
-                        {isEditMode ? "Update Attendance" : "Submit Attendance"}
-                    </Text>
-                </TouchableOpacity>
+            </SafeAreaView>
+        </View>
 
-            </View>
-
-        </SafeAreaView>
     );
 };
 
@@ -800,7 +791,7 @@ export default AttendanceScreen;
 /* ================= STYLES ================= */
 
 const styles = StyleSheet.create({
-    container: { flex: 1, paddingBottom: 80 },
+    container: { flex: 1, },
 
     header: {
         paddingBottom: Spacing.md,
@@ -854,16 +845,18 @@ const styles = StyleSheet.create({
         fontSize: FontSizes.medium,
     },
     statusWrap: {
-        flex: 1,
+        flex: 1.3,
         flexDirection: 'row',
         alignItems: 'center',
     },
 
     footer: {
-        position: 'absolute',
-        bottom: 0,
         width: '100%',
-        padding: Spacing.md,
+        paddingHorizontal: Spacing.md,
+        paddingTop: Spacing.sm,
+        paddingBottom: Spacing.md,
+
+
     },
 
     submitBtn: {

@@ -98,12 +98,12 @@ const HomeScreen = () => {
         <View style={styles.rightIcons}>
 
           <TouchableOpacity style={styles.iconBtn} onPress={() => navigation.navigate("NotificationScreen")}>
-            <Bell size={20} color={colors.background} />
+            <Bell size={22} color={colors.background} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.iconBtn}>
+          {/* <TouchableOpacity style={styles.iconBtn}>
             <Share2 size={20} color={colors.background} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
 

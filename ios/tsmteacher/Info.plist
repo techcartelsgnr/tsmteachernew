@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>tsmteacher</string>
+	<string>TSMTeacher</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -18,6 +18,8 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
@@ -65,5 +67,22 @@
 		<string>Quicksand-VariableFont_wght.ttf</string>
 		<string>TiroDevanagariHindi-Italic.ttf</string>
 	</array>
+	<!-- CAMERA -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to camera to capture photos for homework.</string>
+	<!-- PHOTO LIBRARY (GALLERY PICK) -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photo library to select images.</string>
+	<!-- PHOTO LIBRARY (SAVE - optional but recommended) -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs permission to save photos.</string>
+	<!-- FILES / DOCUMENTS (PDF PICK) -->
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>This app needs access to files to upload PDF documents.</string>
+	<!-- FILE ACCESS (iOS 11+) -->
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
